@@ -12,6 +12,14 @@
  * @copyright  Copyright (C) 2018 Kiwi Commerce Ltd (https://kiwicommerce.co.uk/)
  * @license    https://kiwicommerce.co.uk/magento2-extension-license/
  */
+
+/** @var Escaper $escaper */
+
+/** @var ActivityLogListing $block */
+
+use Magento\Framework\Escaper;
+use MageOS\AdminActivityLog\Block\Adminhtml\ActivityLogListing;
+
 $collection = $block->getLogListing();
 $adminDetails = $block->getAdminDetails();
 ?>
@@ -24,9 +32,9 @@ $adminDetails = $block->getAdminDetails();
                     <td width="1%" style="font-size: 16px;font-weight: 600;">:</td>
                     <td><?php
                         if (!empty($adminDetails['username'])) {
-                            echo $adminDetails['username'];
+                            echo $escaper->escapeHtml($adminDetails['username']);
                             if (!empty($adminDetails['name'])) {
-                                echo " (" . ucwords(strtolower($adminDetails['name'])) . ") ";
+                                echo $escaper->escapeHtml(" (" . ucwords(strtolower($adminDetails['name'])) . ") ");
                             }
                         }
                         ?></td>
@@ -34,26 +42,24 @@ $adminDetails = $block->getAdminDetails();
                 <tr style="height: 35px;text-indent: 10px;">
                     <td style="font-size: 16px;font-weight: 600;">Module</td>
                     <td width="1%" style="font-size: 16px;font-weight: 600;">:</td>
-                    <td><?php
-                        echo $adminDetails['module']; ?></td>
+                    <td><?= $escaper->escapeHtml($adminDetails['module']) ?></td>
                 </tr>
                 <tr style="height: 35px;text-indent: 10px;">
                     <td style="font-size: 16px;font-weight: 600;">Action</td>
                     <td width="1%" style="font-size: 16px;font-weight: 600;">:</td>
-                    <td><?php
-                        echo $adminDetails['fullaction']; ?> </td>
+                    <td><?= $escaper->escapeHtml($adminDetails['fullaction']) ?> </td>
                 </tr>
                 <tr style="height: 35px;text-indent: 10px;">
                     <td style="font-size: 16px;font-weight: 600;">User Agent</td>
                     <td width="1%" style="font-size: 16px;font-weight: 600;">:</td>
-                    <td style="text-indent: 0px;padding-left: 10px;"><?php
-                        echo $adminDetails['browser']; ?></td>
+                    <td style="text-indent: 0px;padding-left: 10px;"><?= $escaper->escapeHtml(
+                            $adminDetails['browser']
+                        ) ?></td>
                 </tr>
                 <tr style="height: 35px;text-indent: 10px;">
                     <td style="font-size: 16px;font-weight: 600;">Date</td>
                     <td width="1%" style="font-size: 16px;font-weight: 600;">:</td>
-                    <td><?php
-                        echo $adminDetails['date']; ?></td>
+                    <td><?= $escaper->escapeHtml($adminDetails['date']) ?></td>
                 </tr>
             </table>
         </td>
@@ -62,7 +68,7 @@ $adminDetails = $block->getAdminDetails();
         <td style="height:  35px;"></td>
     </tr>
     <?php
-    if (!empty($collection)) { ?>
+    if (!empty($collection)): ?>
         <tr>
             <td>
                 <table border="1" width="100%" cellspacing="1" cellpadding="1">
@@ -72,31 +78,29 @@ $adminDetails = $block->getAdminDetails();
                         <th width="40%">New Value</th>
                     </tr>
                     <?php
-                    foreach ($collection as $item) { ?>
+                    foreach ($collection as $item): ?>
                         <tr style="height:45px; text-indent:10px;">
                             <td>
-                                <?php
-                                $name = str_replace('_', ' ', $item["field_name"]);
-                                echo ucfirst($name); ?>
+                                <?= $escaper->escapeHtml(ucfirst(str_replace('_', ' ', $item["field_name"]))) ?>
                             </td>
                             <td>
                                 <textarea class="value-container" readonly><?php
-                                    if (!$block->activityRepository->isFieldProtected($item['field_name'])) {
-                                        echo $block->escapeHtml($item['old_value']);
-                                    } ?></textarea>
+                                    if (!$block->activityRepository->isFieldProtected($item['field_name'])):
+                                        echo $escaper->escapeHtml($item['old_value']);
+                                    endif ?></textarea>
                             </td>
                             <td>
                                 <textarea class="value-container" readonly><?php
-                                    if (!$block->activityRepository->isFieldProtected($item['field_name'])) {
-                                        echo $block->escapeHtml($item['new_value']);
-                                    } ?></textarea>
+                                    if (!$block->activityRepository->isFieldProtected($item['field_name'])):
+                                        echo $escaper->escapeHtml($item['new_value']);
+                                    endif ?></textarea>
                             </td>
                         </tr>
                     <?php
-                    } ?>
+                    endforeach; ?>
                 </table>
             </td>
         </tr>
     <?php
-    } ?>
+    endif; ?>
 </table>

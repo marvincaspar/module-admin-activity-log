@@ -12,16 +12,20 @@
  * @license    https://kiwicommerce.co.uk/magento2-extension-license/
  */
 
-?>
-<script>
-    require([
-        "jquery",
-        "Magento_Ui/js/modal/modal",
-        'mage/backend/notification',
-        "prototype"
-    ], function (jQuery, modal, notification) {
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Helper\SecureHtmlRenderer;
+use MageOS\AdminActivityLog\Block\Adminhtml\Selector;
 
-//<![CDATA[
+/** @var Selector $block */
+/** @var SecureHtmlRenderer $secureRenderer */
+/** @var Escaper $escaper */
+
+$script = <<<JS
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/modal',
+        'mage/backend/notification'
+    ], function (jQuery, modal, notification) {
         Window.keepMultiModalWindow = true;
         var adminActivityLogView = {
             overlayShowEffectOptions: null,
@@ -37,7 +41,7 @@
                         },
                         showLoader: true,
                         dataType: 'html',
-                        success: function (data, textStatus, transport) {
+                        success: function (data) {
                             this.openDialogWindow(data, elementId, revertable);
                         }.bind(this)
                     });
@@ -50,7 +54,7 @@
                     this.modal.html(jQuery(data).html());
                 } else {
                     this.modal = jQuery(data).modal({
-                        title: '<?= /* @escapeNotVerified */ __('Activity Log'); ?>',
+                        title: jQuery.mage.__('Activity Log'),
                         modalClass: 'magento',
                         type: 'slide',
                         firedElementId: elementId,
@@ -83,10 +87,10 @@
                 var self = this;
                 jQuery.ajax({
                     type: 'POST',
-                    url: '<?= /* @escapeNotVerified */ $block->getRevertUrl(); ?>',
+                    url: '{$escaper->escapeUrl($block->getRevertUrl())}',
                     data: {
                         id: this.activityId,
-                        form_key: '<?= /* @escapeNotVerified */ $block->getFormKey(); ?>'
+                        form_key: '{$escaper->escapeJs($block->getFormKey())}'
                     },
                     dataType: 'json',
                     showLoader: true
@@ -101,7 +105,6 @@
                     });
             },
             closeDialogWindow: function (dialogWindow) {
-
                 jQuery('body').trigger('processStop');
                 dialogWindow.closeModal();
                 Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
@@ -113,8 +116,8 @@
                         error: true,
                         message: jQuery.mage.__(message),
                         insertMethod: function (message) {
-                            var $wrapper = jQuery('<div/>').html(message);
-                            jQuery('.page-main-actions').after($wrapper);
+                            var wrapper = jQuery('<div/>').html(message);
+                            jQuery('.page-main-actions').after(wrapper);
                         }
                     });
             },
@@ -122,7 +125,6 @@
                 jQuery.each(jQuery('textarea.value-container'), function () {
                     var offset = this.offsetHeight - this.clientHeight;
                     var resizeTextarea = function (el) {
-                        console.log('You clicked me!!');
                         jQuery(el).css('height', 'auto').css('height', el.scrollHeight + offset);
                     };
                     jQuery(this).unbind().on('click', function () {
@@ -133,7 +135,6 @@
         };
 
         window.adminActivityLogView = adminActivityLogView;
-//]]>
-
     });
-</script>
+JS;
+echo $secureRenderer->renderTag('script', [], $script, false);
