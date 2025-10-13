@@ -14,7 +14,7 @@
 
 namespace MageOS\AdminActivityLog\Plugin\App;
 
-use Magento\Framework\Interception\InterceptorInterface;
+use Magento\Framework\App\ActionInterface;
 use MageOS\AdminActivityLog\Helper\Benchmark;
 use MageOS\AdminActivityLog\Model\Processor;
 
@@ -49,10 +49,11 @@ class Action
 
     /**
      * Get before dispatch data
-     * @param InterceptorInterface $controller
+     *
+     * @param ActionInterface $controller
      * @return void
      */
-    public function beforeDispatch(InterceptorInterface $controller)
+    public function beforeDispatch(ActionInterface $controller)
     {
         $this->benchmark->start(__METHOD__);
         $actionName = $controller->getRequest()->getActionName();
