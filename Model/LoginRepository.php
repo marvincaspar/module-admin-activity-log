@@ -99,7 +99,7 @@ class LoginRepository implements LoginRepositoryInterface
         $login = $this->loginFactory->create();
 
         $user = $this->getUser();
-        if ($user != null && $user instanceof User) {
+        if ($user instanceof User) {
             $login->setUsername($user->getUsername());
             $login->setName(ucwords($user->getName()));
         }

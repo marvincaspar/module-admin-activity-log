@@ -166,14 +166,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'after' => 'status'
                 ]);
 
-                $connection->dropColumn($tableName, 'location', $schemaName = null);
+                $connection->dropColumn($tableName, 'location');
             }
         }
 
         if (version_compare($context->getVersion(), '0.1.5') < 0) {
             $tableName = $setup->getTable('kiwicommerce_activity_log');
 
-            //TODO: Check if the table already exists
             if ($setup->getConnection()->isTableExists($tableName) == true) {
                 $definition = [
                     'type' => Table::TYPE_TEXT,
@@ -188,7 +187,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $tableName = $setup->getTable('kiwicommerce_activity');
             $connection = $setup->getConnection();
 
-            //TODO: Check if the table already exists
             if ($connection->isTableExists($tableName) == true) {
                 $connection->addColumn($tableName, 'fullaction', [
                     'type' => Table::TYPE_TEXT,
