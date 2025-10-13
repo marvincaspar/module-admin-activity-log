@@ -15,7 +15,7 @@
 namespace MageOS\AdminActivityLog\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\Config\Value\Interceptor;
+use Magento\Framework\App\Config\Value;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use MageOS\AdminActivityLog\Model\Config;
@@ -125,7 +125,7 @@ class Data extends AbstractHelper
      * @var array
      */
     public static $wildcardModels = [
-        Interceptor::class
+        Value::class
     ];
 
     /**
@@ -147,7 +147,7 @@ class Data extends AbstractHelper
      */
     public function isEnable()
     {
-        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
+        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
         if ($status == '1') {
             return true;
         }
@@ -161,9 +161,9 @@ class Data extends AbstractHelper
      */
     public function isLoginEnable()
     {
-        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
+        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
         $loginStatus = $this->scopeConfig
-            ->isSetFlag(self::LOGIN_ACTIVITY_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
+            ->isSetFlag(self::LOGIN_ACTIVITY_ENABLE);
         if ($status == '1' && $loginStatus == '1') {
             return true;
         }
@@ -177,9 +177,9 @@ class Data extends AbstractHelper
      */
     public function isPageVisitEnable()
     {
-        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
+        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
         $pageVisitStatus = $this->scopeConfig
-            ->isSetFlag(self::PAGE_VISIT_ENABLE, ScopeConfigInterface::SCOPE_TYPE_DEFAULT);
+            ->isSetFlag(self::PAGE_VISIT_ENABLE);
         if ($status == '1' && $pageVisitStatus == '1') {
             return true;
         }

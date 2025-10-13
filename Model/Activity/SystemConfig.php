@@ -84,7 +84,9 @@ class SystemConfig implements ModelInterface
     public function getOldData($model)
     {
         $path = $this->getPath($model);
-        $systemData = $this->valueFactory->create()->getCollection()->addFieldToFilter('path', ['like' => $path . '/%']
+        $systemData = $this->valueFactory->create()->getCollection()->addFieldToFilter(
+            'path',
+            ['like' => $path . '/%']
         );
         $data = [];
         foreach ($systemData->getData() as $config) {
@@ -104,6 +106,7 @@ class SystemConfig implements ModelInterface
     /**
      * Get edit activity data of system config module
      * @param $model
+     * @param $fieldArray
      * @return mixed
      */
     public function getEditData($model, $fieldArray)

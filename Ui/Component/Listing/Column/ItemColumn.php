@@ -133,16 +133,16 @@ class ItemColumn extends Column
 
     /**
      * Serialize attributes
-     * @param array $attributes
+     * @param array $keys
      * @param string $valueSeparator
      * @param string $fieldSeparator
      * @param string $quote
      * @return  string
      */
-    public function serialize($attributes = [], $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
+    public function serialize($keys = [], $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
     {
         $data = [];
-        foreach ($attributes as $key => $value) {
+        foreach ($keys as $key => $value) {
             $data[] = $key . $valueSeparator . $quote . $value . $quote;
         }
         return implode($fieldSeparator, $data);

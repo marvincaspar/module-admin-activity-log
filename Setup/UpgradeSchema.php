@@ -39,7 +39,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $tableName = $setup->getTable('kiwicommerce_activity');
 
             //TODO: Check if the table already exists
-            if ($setup->getConnection()->isTableExists($tableName) == true) {
+            if ($setup->getConnection()->isTableExists($tableName)) {
                 $columns = [
                     'forwarded_ip' => [
                         'type' => Table::TYPE_TEXT,
@@ -61,7 +61,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $tableName = $setup->getTable('kiwicommerce_activity');
 
             //TODO: Check if the table already exists
-            if ($setup->getConnection()->isTableExists($tableName) == true) {
+            if ($setup->getConnection()->isTableExists($tableName)) {
                 $columns = [
                     'scope' => [
                         'type' => Table::TYPE_TEXT,
@@ -156,7 +156,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $connection = $setup->getConnection();
 
             //TODO: Check if the table already exists
-            if ($connection->isTableExists($tableName) == true) {
+            if ($connection->isTableExists($tableName)) {
                 $connection->addColumn($tableName, 'remarks', [
                     'type' => Table::TYPE_TEXT,
                     'length' => '',
@@ -173,7 +173,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '0.1.5') < 0) {
             $tableName = $setup->getTable('kiwicommerce_activity_log');
 
-            if ($setup->getConnection()->isTableExists($tableName) == true) {
+            if ($setup->getConnection()->isTableExists($tableName)) {
                 $definition = [
                     'type' => Table::TYPE_TEXT,
                     'length' => 255
@@ -187,7 +187,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $tableName = $setup->getTable('kiwicommerce_activity');
             $connection = $setup->getConnection();
 
-            if ($connection->isTableExists($tableName) == true) {
+            if ($connection->isTableExists($tableName)) {
                 $connection->addColumn($tableName, 'fullaction', [
                     'type' => Table::TYPE_TEXT,
                     'length' => 200,

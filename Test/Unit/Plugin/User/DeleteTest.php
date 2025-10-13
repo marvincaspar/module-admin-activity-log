@@ -35,7 +35,7 @@ class DeleteTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->userResourceMock = $this->getMockBuilder(\Magento\User\Model\ResourceModel\User::class)
             ->setMethods([])

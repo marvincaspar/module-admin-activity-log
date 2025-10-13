@@ -34,7 +34,7 @@ class SelectorTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $objectManager = new ObjectManager($this);
 

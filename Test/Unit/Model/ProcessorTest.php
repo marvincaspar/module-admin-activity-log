@@ -61,7 +61,7 @@ class ProcessorTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->configMock = $this->getMockBuilder(Config::class)
             ->setMethods(['getEventByAction', 'getTrackFieldModel', 'getEventModel', 'getActivityModuleConstant'])

@@ -27,7 +27,7 @@ $script = <<<JS
         'mage/backend/notification'
     ], function (jQuery, modal, notification) {
         Window.keepMultiModalWindow = true;
-        var adminActivityLogView = {
+        window.adminActivityLogView = {
             overlayShowEffectOptions: null,
             overlayHideEffectOptions: null,
             modal: null,
@@ -48,7 +48,6 @@ $script = <<<JS
                 }
             },
             openDialogWindow: function (data, elementId, revertable) {
-                var self = this;
                 this.activityId = elementId;
                 if (this.modal) {
                     this.modal.html(jQuery(data).html());
@@ -61,30 +60,26 @@ $script = <<<JS
                         buttons: [{
                             text: jQuery.mage.__('Back'),
                             class: 'action- scalable back',
-                            click: function () {
-                                self.closeDialogWindow(this);
+                            click: () => {
+                                this.closeDialogWindow(this);
                             }
                         }, {
                             text: jQuery.mage.__('Revert'),
                             class: 'action- scalable action-primary action-revert-activity',
-                            click: function () {
-                                self.revertDialogWindow(this);
+                            click: () => {
+                                this.revertDialogWindow(this);
                             }
                         }],
-                        close: function () {
-                            self.closeDialogWindow(this);
+                        close: () => {
+                            this.closeDialogWindow(this);
                         }
                     });
                 }
-                jQuery(".action-revert-activity").hide();
-                if (revertable == 1) {
-                    jQuery(".action-revert-activity").show();
-                }
+                jQuery(".action-revert-activity").toggle(revertable);
                 this.modal.modal('openModal');
                 this.autoResize();
             },
             revertDialogWindow: function (dialogWindow) {
-                var self = this;
                 jQuery.ajax({
                     type: 'POST',
                     url: '{$escaper->escapeUrl($block->getRevertUrl())}',
@@ -95,12 +90,12 @@ $script = <<<JS
                     dataType: 'json',
                     showLoader: true
                 })
-                    .success(function (data) {
+                    .success((data) => {
                         if (!data.error) {
-                            self.closeDialogWindow(dialogWindow);
+                            this.closeDialogWindow(dialogWindow);
                             window.location.reload();
                         } else {
-                            self.error(data.message);
+                            this.error(data.message);
                         }
                     });
             },
@@ -116,15 +111,15 @@ $script = <<<JS
                         error: true,
                         message: jQuery.mage.__(message),
                         insertMethod: function (message) {
-                            var wrapper = jQuery('<div/>').html(message);
+                            let wrapper = jQuery('<div/>').html(message);
                             jQuery('.page-main-actions').after(wrapper);
                         }
                     });
             },
             autoResize: function () {
                 jQuery.each(jQuery('textarea.value-container'), function () {
-                    var offset = this.offsetHeight - this.clientHeight;
-                    var resizeTextarea = function (el) {
+                    let offset = this.offsetHeight - this.clientHeight;
+                    const resizeTextarea = function (el) {
                         jQuery(el).css('height', 'auto').css('height', el.scrollHeight + offset);
                     };
                     jQuery(this).unbind().on('click', function () {
@@ -133,8 +128,6 @@ $script = <<<JS
                 });
             }
         };
-
-        window.adminActivityLogView = adminActivityLogView;
     });
 JS;
 echo $secureRenderer->renderTag('script', [], $script, false);

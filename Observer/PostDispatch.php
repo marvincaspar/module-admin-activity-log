@@ -60,13 +60,13 @@ class PostDispatch implements ObserverInterface
     /**
      * Post dispatch
      * @param Observer $observer
-     * @return Observer
+     * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $this->benchmark->start(__METHOD__);
         if (!$this->helper->isEnable()) {
-            return $observer;
+            return;
         }
         $this->processor->saveLogs();
         $this->benchmark->end(__METHOD__);

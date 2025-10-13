@@ -106,6 +106,7 @@ class ThemeConfig implements ModelInterface
     /**
      * Get edit activity data of theme configuration
      * @param $model
+     * @param $fieldArray
      * @return mixed
      */
     public function getEditData($model, $fieldArray)
@@ -123,6 +124,7 @@ class ThemeConfig implements ModelInterface
      * Get revert activity data of theme configuration
      * @param $logData
      * @param $scopeId
+     * @param $scope
      * @return bool
      */
     public function revertData($logData, $scopeId, $scope)
@@ -144,6 +146,7 @@ class ThemeConfig implements ModelInterface
      * Set additional data
      * @param $oldData
      * @param $newData
+     * @param $fieldArray
      * @return array
      */
     public function collectAdditionalData($oldData, $newData, $fieldArray)

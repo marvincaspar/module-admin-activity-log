@@ -40,7 +40,7 @@ class DeleteAfterTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->processorMock = $this->getMockBuilder(Processor::class)
             ->disableOriginalConstructor()

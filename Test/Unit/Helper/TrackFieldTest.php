@@ -40,7 +40,7 @@ class TrackFieldTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $context = $this->getMockBuilder(Context::class)
             ->disableOriginalConstructor()
@@ -79,7 +79,7 @@ class TrackFieldTest extends TestCase
         $this->assertGreaterThanOrEqual(1, $this->helper->getFields($method));
     }
 
-    public function collectFieldDataMethods()
+    public static function collectFieldDataMethods()
     {
         return [
             'Category' => ['getCategoryFieldData'],

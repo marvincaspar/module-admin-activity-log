@@ -202,8 +202,9 @@ class Processor
      * @param Helper $helper
      * @param ManagerInterface $messageManager
      * @param RequestInterface $request
-     * @param Activity\Status $status
-     * @param Handler\PostDispatch $postDispatch
+     * @param Http $httpRequest
+     * @param Status $status
+     * @param PostDispatch $postDispatch
      */
     public function __construct(
         Config $config,

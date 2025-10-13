@@ -14,14 +14,13 @@
 
 namespace MageOS\AdminActivityLog\Model\Activity;
 
-use Magento\Framework\Model\AbstractModel;
 use MageOS\AdminActivityLog\Model\ActivityFactory;
 
 /**
  * Class Status
  * @package MageOS\AdminActivityLog\Model\Activity
  */
-class Status extends AbstractModel
+class Status
 {
     /**
      * @var Int
@@ -46,7 +45,7 @@ class Status extends AbstractModel
     /**
      * @var ActivityFactory
      */
-    public $activityFactory;
+    private $activityFactory;
 
     /**
      * Status constructor.

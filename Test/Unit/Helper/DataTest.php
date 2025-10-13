@@ -15,7 +15,7 @@
 namespace MageOS\AdminActivityLog\Test\Unit\Helper;
 
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\App\Config\Value\Interceptor;
+use Magento\Framework\App\Config\Value;
 use Magento\Framework\App\Helper\Context;
 use MageOS\AdminActivityLog\Helper\Data;
 use MageOS\AdminActivityLog\Model\Config;
@@ -30,7 +30,7 @@ class DataTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->context = $this->getMockBuilder(Context::class)
             ->disableOriginalConstructor()
@@ -84,7 +84,7 @@ class DataTest extends TestCase
         $this->assertSame(false, $notwildcardmethod);
 
         $notwildcardmethod = Data::isWildCardModel(
-            Interceptor::class
+            Value::class
         );
         $this->assertSame(true, $notwildcardmethod);
     }

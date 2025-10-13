@@ -52,7 +52,7 @@ class SaveBefore implements ObserverInterface
      * @param Helper $helper
      * @param Processor $processor
      * @param ActivityRepositoryInterface $activityRepository
-     * @param Benchmark $banchmark
+     * @param Benchmark $benchmark
      */
     public function __construct(
         Helper $helper,

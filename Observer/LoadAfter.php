@@ -60,13 +60,13 @@ class LoadAfter implements ObserverInterface
     /**
      * Delete after
      * @param Observer $observer
-     * @return Observer
+     * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $this->benchmark->start(__METHOD__);
         if (!$this->helper->isEnable()) {
-            return $observer;
+            return;
         }
         $object = $observer->getEvent()->getObject();
         $this->processor->modelLoadAfter($object);

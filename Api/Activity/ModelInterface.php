@@ -30,6 +30,7 @@ interface ModelInterface
     /**
      * Get edit data
      * @param $model
+     * @param $fieldArray
      * @return mixed
      */
     public function getEditData($model, $fieldArray);

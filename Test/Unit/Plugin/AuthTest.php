@@ -42,7 +42,7 @@ class AuthTest extends TestCase
     /**
      * @requires PHP 7.0
      */
-    public function setUp()
+    public function setUp(): void
     {
         $this->authMock = $this->getMockBuilder(\Magento\Backend\Model\Auth::class)
             ->setMethods(['getAuthStorage'])
@@ -66,8 +66,7 @@ class AuthTest extends TestCase
             ->getMock();
 
         $this->loginRepositoryMock = $this->getMockBuilder(
-            LoginRepositoryInterface
-            ::class
+            LoginRepositoryInterface::class
         )
             ->setMethods(['setUser', 'addLog', 'getListBeforeDate'])
             ->disableOriginalConstructor()
