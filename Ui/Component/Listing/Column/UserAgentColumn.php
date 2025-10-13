@@ -28,7 +28,7 @@ class UserAgentColumn extends Column
     /**
      * @var Browser
      */
-    public $browser;
+    private $browser;
 
     /**
      * UserAgentColumn constructor.

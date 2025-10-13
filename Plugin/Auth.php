@@ -27,17 +27,17 @@ class Auth
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var LoginRepositoryInterface
      */
-    public $loginRepository;
+    private $loginRepository;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * Auth constructor.

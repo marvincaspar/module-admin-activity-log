@@ -30,22 +30,22 @@ class SaveBefore implements ObserverInterface
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var Processor
      */
-    public $processor;
+    private $processor;
 
     /**
      * @var ActivityRepositoryInterface
      */
-    public $activityRepository;
+    private $activityRepository;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * SaveBefore constructor.

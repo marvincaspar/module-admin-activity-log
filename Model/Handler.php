@@ -28,27 +28,27 @@ class Handler
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var Header
      */
-    public $header;
+    private $header;
 
     /**
      * @var Http
      */
-    public $request;
+    private $request;
 
     /**
      * @var UrlInterface
      */
-    public $urlInterface;
+    private $urlInterface;
 
     /**
      * @var ActivityLogFactory
      */
-    public $activityLogFactory;
+    private $activityLogFactory;
 
     /**
      * Handler constructor.
@@ -77,7 +77,7 @@ class Handler
      * @param $logs
      * @return mixed
      */
-    public function __initLog($logs)
+    public function initLog($logs)
     {
         if (!empty($logs)) {
             foreach ($logs as $field => $value) {
@@ -97,7 +97,7 @@ class Handler
      */
     public function modelAdd($model, $method)
     {
-        return $this->__initLog(
+        return $this->initLog(
             $this->helper->getAddData($model, $method)
         );
     }
@@ -110,7 +110,7 @@ class Handler
      */
     public function modelEdit($model, $method)
     {
-        return $this->__initLog(
+        return $this->initLog(
             $this->helper->getEditData($model, $method)
         );
     }
@@ -123,8 +123,18 @@ class Handler
      */
     public function modelDelete($model, $method)
     {
-        return $this->__initLog(
+        return $this->initLog(
             $this->helper->getDeleteData($model, $method)
         );
+    }
+
+    public function getRequest(): Http
+    {
+        return $this->request;
+    }
+
+    public function getHeader(): Header
+    {
+        return $this->header;
     }
 }

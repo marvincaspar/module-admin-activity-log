@@ -73,114 +73,114 @@ class Processor
     /**
      * @var Config
      */
-    public $config;
+    private $config;
 
     /**
      * current event config
      * @var array
      */
-    public $eventConfig;
+    private $eventConfig;
 
     /**
      * Last action name
      * @var string
      */
-    public $actionName = '';
+    private $actionName = '';
 
     /**
      * Last full action name
      * @var string
      */
-    public $lastAction = '';
+    private $lastAction = '';
 
     /**
      * Initialization full action name
      * @var string
      */
-    public $initAction = '';
+    private $initAction = '';
 
     /**
      * Temporary storage for model changes before saving to table.
      * @var array
      */
-    public $activityLogs = [];
+    private $activityLogs = [];
 
     /**
      * @var Session
      */
-    public $authSession;
+    private $authSession;
 
     /**
      * @var Handler
      */
-    public $handler;
+    private $handler;
 
     /**
      * @var RemoteAddress
      */
-    public $remoteAddress;
+    private $remoteAddress;
 
     /**
      * @var ActivityFactory
      */
-    public $activityFactory;
+    private $activityFactory;
 
     /**
      * @var ActivityLogDetailFactory
      */
-    public $activityDetailFactory;
+    private $activityDetailFactory;
 
     /**
      * @var StoreManagerInterface
      */
-    public $storeManager;
+    private $storeManager;
 
     /**
      * @var DateTime
      */
-    public $dateTime;
+    private $dateTime;
 
     /**
      * @var ActivityRepositoryInterface
      */
-    public $activityRepository;
+    private $activityRepository;
 
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var ManagerInterface
      */
-    public $messageManager;
+    private $messageManager;
 
     /**
      * Request
      *
      * @var RequestInterface
      */
-    public $request;
+    private $request;
 
     /**
      * Http request
      * @var Http
      */
-    public $httpRequest;
+    private $httpRequest;
     /**
      * @var Activity\Status
      */
-    public $status;
+    private $status;
 
     /**
      * @var Handler\PostDispatch
      */
-    public $postDispatch;
+    private $postDispatch;
 
     /**
      * @var array
      */
-    public $urlParams = [
+    private $urlParams = [
         '{{module}}',
         '{{controller}}',
         '{{action}}',
@@ -256,7 +256,7 @@ class Processor
         $this->lastAction = $fullActionName;
         $this->eventConfig = $this->config->getEventByAction($fullActionName);
         if (isset($this->eventConfig['post_dispatch'])) {
-            $this->_callPostDispatchCallback();
+            $this->callPostDispatchCallback();
         }
         return $this;
     }
@@ -312,9 +312,9 @@ class Processor
         return str_replace(
             $this->urlParams,
             [
-                $this->handler->request->getModuleName(),
-                $this->handler->request->getControllerName(),
-                $this->handler->request->getActionName(),
+                $this->handler->getRequest()->getModuleName(),
+                $this->handler->getRequest()->getControllerName(),
+                $this->handler->getRequest()->getActionName(),
                 self::PRIMARY_FIELD,
                 $id
             ],
@@ -332,7 +332,7 @@ class Processor
         if ($this->validate($model)) {
             $logData = $this->handler->modelAdd($model, $this->getMethod());
             if (!empty($logData)) {
-                $activity = $this->_initActivity($model);
+                $activity = $this->initActivity($model);
                 $activity->setIsRevertable(0);
 
                 $this->addLog($activity, $logData, $model);
@@ -352,7 +352,7 @@ class Processor
         if ($this->validate($model)) {
             $logData = $this->handler->modelEdit($model, $this->getMethod());
             if (!empty($logData)) {
-                $activity = $this->_initActivity($model);
+                $activity = $this->initActivity($model);
                 $activity->setActionType($label);
                 $activity->setIsRevertable(1);
 
@@ -373,7 +373,7 @@ class Processor
         if ($this->validate($model)) {
             $logData = $this->handler->modelDelete($model, $this->getMethod());
             if (!empty($logData)) {
-                $activity = $this->_initActivity($model);
+                $activity = $this->initActivity($model);
 
                 $activity->setIsRevertable(0);
                 $activity->setItemUrl('');
@@ -393,7 +393,7 @@ class Processor
      */
     public function addLog($activity, $logData, $model)
     {
-        $logDetail = $this->_initActivityDetail($model);
+        $logDetail = $this->initActivityDetail($model);
         $this->activityLogs[] = [
             Activity::class => $activity,
             ActivityLog::class => $logData,
@@ -442,7 +442,7 @@ class Processor
      * Set activity details data
      * @return Activity
      */
-    public function _initLog()
+    public function initLog()
     {
         $activity = $this->activityFactory->create();
 
@@ -455,7 +455,7 @@ class Processor
         $activity->setScope($this->getScope());
         $activity->setRemoteIp($this->remoteAddress->getRemoteAddress());
         $activity->setForwardedIp($this->httpRequest->getServer('HTTP_X_FORWARDED_FOR'));
-        $activity->setUserAgent($this->handler->header->getHttpUserAgent());
+        $activity->setUserAgent($this->handler->getHeader()->getHttpUserAgent());
         $activity->setModule($this->helper->getActivityModuleName($this->eventConfig['module'] ?? ''));
         $activity->setActionType($this->eventConfig['action'] ?? '');
         $activity->setFullaction($this->escapeString($this->lastAction, '/'));
@@ -469,13 +469,13 @@ class Processor
      * @param $model
      * @return bool|Activity
      */
-    public function _initActivity($model)
+    public function initActivity($model)
     {
         if (!$this->authSession->isLoggedIn()) {
             return false;
         }
 
-        $activity = $this->_initLog();
+        $activity = $this->initLog();
 
         $activity->setStoreId($this->getStoreId($model));
         $activity->setItemName(
@@ -494,7 +494,7 @@ class Processor
      * @param $model
      * @return mixed
      */
-    public function _initActivityDetail($model)
+    public function initActivityDetail($model)
     {
         $activity = $this->activityDetailFactory->create()->setData([
             'model_class' => get_class($model),
@@ -509,7 +509,7 @@ class Processor
      * Check post dispatch method to track log for mass actions
      * @return bool
      */
-    public function _callPostDispatchCallback()
+    public function callPostDispatchCallback()
     {
         $handler = $this->postDispatch;
         if (isset($this->eventConfig['post_dispatch'])) {
@@ -593,11 +593,11 @@ class Processor
 
     /**
      * Convert module and action name to user readable format
-     * @param $name
+     * @param string $name
      * @param string $delimiter
      * @return string
      */
-    public function escapeString($name, $delimiter = ' ')
+    public function escapeString(string $name, string $delimiter = ' '): string
     {
         return implode(
             $delimiter,
@@ -615,11 +615,11 @@ class Processor
 
     /**
      * Check action to skip
-     * @param $module
-     * @param $fullAction
+     * @param string $module
+     * @param string $fullAction
      * @return bool
      */
-    public function isValidAction($module, $fullAction)
+    public function isValidAction(string $module, string $fullAction): bool
     {
         if (in_array(strtolower($fullAction), self::SKIP_MODULE_ACTIONS)
             || in_array(strtolower($module), self::SKIP_MODULE)) {
@@ -630,18 +630,18 @@ class Processor
 
     /**
      * Track page visit history
-     * @param $module
+     * @param string $module
      * @return void
      */
-    public function addPageVisitLog($module)
+    public function addPageVisitLog(string $module): void
     {
         if (in_array(strtolower($this->lastAction), $this->config->getControllerActions())) {
-            return false;
+            return;
         }
 
         if ($this->helper->isPageVisitEnable()
             && $this->isValidAction($module, $this->lastAction)) {
-            $activity = $this->_initLog();
+            $activity = $this->initLog();
 
             $activity->setActionType('view');
             $activity->setIsRevertable(0);
@@ -652,5 +652,19 @@ class Processor
 
             $activity->save();
         }
+    }
+
+    public function getInitAction(): string
+    {
+        return $this->initAction;
+    }
+
+    public function getEventConfig(?string $type = null)
+    {
+        if ($type !== null) {
+            return $this->eventConfig[$type] ?? null;
+        }
+
+        return $this->eventConfig;
     }
 }

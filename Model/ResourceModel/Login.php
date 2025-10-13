@@ -30,6 +30,6 @@ class Login extends AbstractDb
     public function _construct()
     {
         // Table Name and Primary Key column
-        $this->_init('kiwicommerce_login_activity', 'entity_id');
+        $this->_init('admin_login_log', 'entity_id');
     }
 }

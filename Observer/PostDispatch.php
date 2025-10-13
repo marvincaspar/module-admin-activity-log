@@ -34,12 +34,12 @@ class PostDispatch implements ObserverInterface
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * PostDispatch constructor.

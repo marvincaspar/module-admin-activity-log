@@ -33,24 +33,24 @@ class PostDispatch
      *
      * @var RequestInterface
      */
-    public $request;
+    private $request;
 
     /**
      * Response
      *
      * @var ResponseInterface
      */
-    public $response;
+    private $response;
 
     /**
      * @var ProductRepositoryInterface
      */
-    public $productRepository;
+    private $productRepository;
 
     /**
      * @var Session
      */
-    public $session;
+    private $session;
 
     /**
      * PostDispatch constructor.

@@ -33,7 +33,7 @@ class Index extends Action
     /**
      * @var PageFactory
      */
-    public $resultPageFactory;
+    private $resultPageFactory;
 
     /**
      * Index constructor.

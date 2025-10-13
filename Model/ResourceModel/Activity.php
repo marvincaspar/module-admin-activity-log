@@ -30,6 +30,6 @@ class Activity extends AbstractDb
     public function _construct()
     {
         // Table Name and Primary Key column
-        $this->_init('kiwicommerce_activity', 'entity_id');
+        $this->_init('admin_activity', 'entity_id');
     }
 }

@@ -30,12 +30,12 @@ class Log extends Action
     /**
      * @var RawFactory
      */
-    public $resultRawFactory;
+    private $resultRawFactory;
 
     /**
      * @var LayoutFactory
      */
-    public $layoutFactory;
+    private $layoutFactory;
 
     /**
      * Log constructor.

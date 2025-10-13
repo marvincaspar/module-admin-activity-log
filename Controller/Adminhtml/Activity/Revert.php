@@ -29,12 +29,12 @@ class Revert extends Action
     /**
      * @var JsonFactory
      */
-    public $resultJsonFactory;
+    private $resultJsonFactory;
 
     /**
      * @var Processor
      */
-    public $processor;
+    private $processor;
 
     /**
      * Revert constructor.

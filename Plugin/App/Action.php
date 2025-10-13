@@ -27,12 +27,12 @@ class Action
     /**
      * @var Processor
      */
-    public $processor;
+    private $processor;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * Action constructor.

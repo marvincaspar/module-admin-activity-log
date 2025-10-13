@@ -15,6 +15,7 @@
 namespace MageOS\AdminActivityLog\Model\ResourceModel\Activity;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
+use MageOS\AdminActivityLog\Model\ResourceModel\Activity;
 
 /**
  * Class Collection
@@ -29,8 +30,8 @@ class Collection extends AbstractCollection
     public function _construct()
     {
         $this->_init(
-            'MageOS\AdminActivityLog\Model\Activity',
-            'MageOS\AdminActivityLog\Model\ResourceModel\Activity'
+            \MageOS\AdminActivityLog\Model\Activity::class,
+            Activity::class
         );
     }
 }

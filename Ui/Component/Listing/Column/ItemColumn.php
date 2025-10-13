@@ -36,7 +36,7 @@ class ItemColumn extends Column
     /**
      * @var array
      */
-    public $allowedAttributes = [
+    private $allowedAttributes = [
         'href',
         'title',
         'id',
@@ -49,18 +49,18 @@ class ItemColumn extends Column
      * Escaper
      * @var Escaper
      */
-    public $escaper;
+    private $escaper;
 
     /**
      * @var UrlInterface
      */
-    public $backendUrl;
+    private $backendUrl;
 
     /**
      * Filter manager
      * @var FilterManager
      */
-    public $filterManager;
+    private $filterManager;
 
     /**
      * ItemColumn constructor.

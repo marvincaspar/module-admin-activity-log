@@ -33,6 +33,6 @@ class Login extends AbstractModel
      */
     public function _construct()
     {
-        $this->_init('MageOS\AdminActivityLog\Model\ResourceModel\Login');
+        $this->_init(ResourceModel\Login::class);
     }
 }

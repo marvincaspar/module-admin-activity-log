@@ -28,18 +28,18 @@ class ActivityLogListing extends Template
     /**
      * @var ActivityRepositoryInterface
      */
-    public $activityRepository;
+    private $activityRepository;
 
     /**
      * @var Browser
      */
-    public $browser;
+    private $browser;
 
     /**
      * Path to template file in theme.
      * @var string
      */
-    public $_template = 'MageOS_AdminActivityLog::log_listing.phtml';
+    protected $_template = 'MageOS_AdminActivityLog::log_listing.phtml';
 
     /**
      * ActivityLogListing constructor.

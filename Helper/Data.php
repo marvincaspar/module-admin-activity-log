@@ -145,52 +145,39 @@ class Data extends AbstractHelper
      * Check and return status of module
      * @return bool
      */
-    public function isEnable()
+    public function isEnable(): bool
     {
-        $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
-        if ($status == '1') {
-            return true;
-        }
-
-        return false;
+        return $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
     }
 
     /**
      * Check and return status for login activity
      * @return bool
      */
-    public function isLoginEnable()
+    public function isLoginEnable(): bool
     {
         $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
-        $loginStatus = $this->scopeConfig
-            ->isSetFlag(self::LOGIN_ACTIVITY_ENABLE);
-        if ($status == '1' && $loginStatus == '1') {
-            return true;
-        }
+        $loginStatus = $this->scopeConfig->isSetFlag(self::LOGIN_ACTIVITY_ENABLE);
 
-        return false;
+        return $status && $loginStatus;
     }
 
     /**
      * Check and return status for page visit history
      * @return bool
      */
-    public function isPageVisitEnable()
+    public function isPageVisitEnable(): bool
     {
         $status = $this->scopeConfig->isSetFlag(self::ACTIVITY_ENABLE);
-        $pageVisitStatus = $this->scopeConfig
-            ->isSetFlag(self::PAGE_VISIT_ENABLE);
-        if ($status == '1' && $pageVisitStatus == '1') {
-            return true;
-        }
+        $pageVisitStatus = $this->scopeConfig->isSetFlag(self::PAGE_VISIT_ENABLE);
 
-        return false;
+        return $status && $pageVisitStatus;
     }
 
     /**
      * Get value of system config from path
      * @param $path
-     * @return bool
+     * @return mixed|false
      */
     public function getConfigValue($path)
     {
@@ -212,9 +199,9 @@ class Data extends AbstractHelper
      * @param string $action
      * @return string
      */
-    public function getActionTranslatedLabel($action)
+    public function getActionTranslatedLabel(string $action): string
     {
-        return $this->config->getActionLabel($action);
+        return (string)$this->config->getActionLabel($action);
     }
 
     /**
@@ -228,7 +215,7 @@ class Data extends AbstractHelper
 
     /**
      * Get activity module name
-     * @return bool
+     * @return string
      */
     public function getActivityModuleName($module)
     {
@@ -240,12 +227,9 @@ class Data extends AbstractHelper
      * @param $model
      * @return bool
      */
-    public static function isWildCardModel($model)
+    public static function isWildCardModel($model): bool
     {
         $model = is_string($model) ? $model : get_class($model);
-        if (in_array($model, self::$wildcardModels)) {
-            return true;
-        }
-        return false;
+        return in_array($model, self::$wildcardModels, true);
     }
 }

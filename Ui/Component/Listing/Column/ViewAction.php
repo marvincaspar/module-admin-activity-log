@@ -30,12 +30,12 @@ class ViewAction extends Column
     /**
      * @var UrlInterface
      */
-    public $urlBuilder;
+    private $urlBuilder;
 
     /**
      * @var LayoutInterface
      */
-    public $layout;
+    private $layout;
 
     /**
      * ViewAction constructor.

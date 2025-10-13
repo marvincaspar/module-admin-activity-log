@@ -40,43 +40,43 @@ class ActivityRepository implements ActivityRepositoryInterface
     /**
      * @var ActivityFactory
      */
-    public $activityFactory;
+    private $activityFactory;
 
     /**
      * @var ResourceModel\Activity\CollectionFactory
      */
-    public $collectionFactory;
+    private $collectionFactory;
 
     /**
      * @var ActivityLogDetailFactory
      */
-    public $activityLogDetailFactory;
+    private $activityLogDetailFactory;
 
     /**
      * @var ActivityLogFactory
      */
-    public $activityLogFactory;
+    private $activityLogFactory;
 
     /**
      * @var ResourceModel\ActivityLog\CollectionFactory
      */
-    public $LogCollectionFactory;
+    private $LogCollectionFactory;
 
     /**
      * @var SystemConfig
      */
-    public $systemConfig;
+    private $systemConfig;
 
     /**
      * @var Activity\ThemeConfig
      */
-    public $themeConfig;
+    private $themeConfig;
 
     /**
      * Object Manager instance
      * @var ObjectManagerInterface
      */
-    public $objectManager;
+    private $objectManager;
 
     /**
      * ActivityRepository constructor.

@@ -36,27 +36,27 @@ class ClearLog
     /**
      * @var LoggerInterface
      */
-    public $logger;
+    private $logger;
 
     /**
      * @var DateTime
      */
-    public $dateTime;
+    private $dateTime;
 
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var ActivityRepositoryInterface
      */
-    public $activityRepository;
+    private $activityRepository;
 
     /**
      * @var LoginRepositoryInterface
      */
-    public $loginRepository;
+    private $loginRepository;
 
     /**
      * ClearLog constructor.
@@ -110,12 +110,12 @@ class ClearLog
                 $activities = $this->activityRepository->getListBeforeDate($date);
                 if (!empty($activities)) {
                     foreach ($activities as $activity) {
-                        //TODO: Remove activity detail
+                        // Remove activity detail
                         $activity->delete();
                     }
                 }
 
-                //TODO: Remove login activity detail
+                // Remove login activity detail
                 if ($this->helper->isLoginEnable()) {
                     $activities = $this->loginRepository->getListBeforeDate($date);
                     if (!empty($activities)) {

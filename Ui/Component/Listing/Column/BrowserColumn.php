@@ -28,7 +28,7 @@ class BrowserColumn extends Column
     /**
      * @var Browser
      */
-    public $browser;
+    private $browser;
 
     /**
      * BrowserColumn constructor.

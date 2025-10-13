@@ -27,13 +27,13 @@ class Config
      * Merged adminactivity.xml config
      * @var array
      */
-    public $_xmlConfig;
+    private $xmlConfig;
 
     /**
      * Translated and sorted labels
      * @var array
      */
-    public $_labels = [];
+    private $labels = [];
 
     /**
      * Config constructor.
@@ -42,7 +42,7 @@ class Config
     public function __construct(
         Data $dataStorage
     ) {
-        $this->_xmlConfig = $dataStorage->get('config');
+        $this->xmlConfig = $dataStorage->get('config');
     }
 
     /**
@@ -51,13 +51,13 @@ class Config
      */
     public function getActions()
     {
-        if (!$this->_labels && isset($this->_xmlConfig['actions'])) {
-            foreach ($this->_xmlConfig['actions'] as $id => $label) {
-                $this->_labels[$id] = __($label);
+        if (!$this->labels && isset($this->xmlConfig['actions'])) {
+            foreach ($this->xmlConfig['actions'] as $id => $label) {
+                $this->labels[$id] = __($label);
             }
-            asort($this->_labels);
+            asort($this->labels);
         }
-        return $this->_labels;
+        return $this->labels;
     }
 
     /**
@@ -67,7 +67,7 @@ class Config
     public function getControllerActions()
     {
         $actions = [];
-        foreach ($this->_xmlConfig as $module => $config) {
+        foreach ($this->xmlConfig as $module => $config) {
             if (isset($config['actions'])) {
                 $actions = array_merge($actions, array_keys($config['actions']));
             }
@@ -82,13 +82,13 @@ class Config
      */
     public function getActionLabel($action)
     {
-        if (isset($this->_xmlConfig['actions'])
+        if (isset($this->xmlConfig['actions'])
             && array_key_exists(
                 $action,
-                $this->_xmlConfig['actions']
+                $this->xmlConfig['actions']
             )
         ) {
-            return __($this->_xmlConfig['actions'][$action]);
+            return __($this->xmlConfig['actions'][$action]);
         }
 
         return $action;
@@ -101,7 +101,7 @@ class Config
      */
     public function getEventByAction($action)
     {
-        foreach ($this->_xmlConfig as $module => $config) {
+        foreach ($this->xmlConfig as $module => $config) {
             if (isset($config['actions']) && array_key_exists($action, $config['actions'])) {
                 return $config['actions'][$action];
             }
@@ -117,10 +117,10 @@ class Config
      */
     public function getEventModel($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
-        return $this->_xmlConfig[$module]['model'];
+        return $this->xmlConfig[$module]['model'];
     }
 
     /**
@@ -130,11 +130,11 @@ class Config
      */
     public function getActivityModuleName($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
 
-        return $this->_xmlConfig[$module]['label'];
+        return $this->xmlConfig[$module]['label'];
     }
 
     /**
@@ -144,11 +144,11 @@ class Config
      */
     public function getTrackFieldModel($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
 
-        return $this->_xmlConfig[$module]['config']['trackfield'];
+        return $this->xmlConfig[$module]['config']['trackfield'];
     }
 
     /**
@@ -158,10 +158,10 @@ class Config
      */
     public function getActivityModuleConstant($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
-        return $this->_xmlConfig[$module]['config']['configpath'];
+        return $this->xmlConfig[$module]['config']['configpath'];
     }
 
     /**
@@ -171,10 +171,10 @@ class Config
      */
     public function getActivityModuleEditUrl($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
-        return $this->_xmlConfig[$module]['config']['editurl'];
+        return $this->xmlConfig[$module]['config']['editurl'];
     }
 
     /**
@@ -184,9 +184,9 @@ class Config
      */
     public function getActivityModuleItemField($module)
     {
-        if (!array_key_exists($module, $this->_xmlConfig)) {
+        if (!array_key_exists($module, $this->xmlConfig)) {
             return false;
         }
-        return $this->_xmlConfig[$module]['config']['itemfield'];
+        return $this->xmlConfig[$module]['config']['itemfield'];
     }
 }

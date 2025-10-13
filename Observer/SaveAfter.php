@@ -44,12 +44,12 @@ class SaveAfter implements ObserverInterface
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * SaveAfter constructor.
@@ -81,17 +81,15 @@ class SaveAfter implements ObserverInterface
         }
         $object = $observer->getEvent()->getObject();
         if ($object->getCheckIfIsNew()) {
-            if ($this->processor->initAction == self::SYSTEM_CONFIG) {
+            if ($this->processor->getInitAction() == self::SYSTEM_CONFIG) {
                 $this->processor->modelEditAfter($object);
             }
             $this->processor->modelAddAfter($object);
-        } else {
-            if ($this->processor->validate($object)) {
-                if ($this->processor->eventConfig['action'] == self::ACTION_MASSCANCEL) {
-                    $this->processor->modelDeleteAfter($object);
-                }
-                $this->processor->modelEditAfter($object);
+        } elseif ($this->processor->validate($object)) {
+            if ($this->processor->getEventConfig('action') === self::ACTION_MASSCANCEL) {
+                $this->processor->modelDeleteAfter($object);
             }
+            $this->processor->modelEditAfter($object);
         }
         $this->benchmark->end(__METHOD__);
         return true;

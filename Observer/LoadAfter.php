@@ -34,12 +34,12 @@ class LoadAfter implements ObserverInterface
     /**
      * @var Data
      */
-    public $helper;
+    private $helper;
 
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * LoadAfter constructor.

@@ -29,23 +29,23 @@ class ThemeConfig implements ModelInterface
     /**
      * @var DataObject
      */
-    public $dataObject;
+    private $dataObject;
 
     /**
      * @var ValueFactory
      */
-    public $valueFactory;
+    private $valueFactory;
 
     /**
      * @var WriterInterface
      */
-    public $configWriter;
+    private $configWriter;
 
     /**
      * Request
      * @var RequestInterface
      */
-    public $request;
+    private $request;
 
     /**
      * ThemeConfig constructor.

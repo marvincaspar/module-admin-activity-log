@@ -76,7 +76,7 @@ class DeleteAfter implements ObserverInterface
         }
 
         $object = $observer->getEvent()->getObject();
-        if ($this->processor->validate($object) && ($this->processor->initAction == self::SYSTEM_CONFIG)) {
+        if ($this->processor->validate($object) && ($this->processor->getInitAction() === self::SYSTEM_CONFIG)) {
             $this->processor->modelEditAfter($object);
         }
         $this->processor->modelDeleteAfter($object);

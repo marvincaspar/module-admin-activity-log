@@ -33,6 +33,6 @@ class Activity extends AbstractModel
      */
     public function _construct()
     {
-        $this->_init('MageOS\AdminActivityLog\Model\ResourceModel\Activity');
+        $this->_init(ResourceModel\Activity::class);
     }
 }

@@ -71,11 +71,11 @@ class LoginFailed implements ObserverInterface
      * @param Observer $observer
      * @return void
      */
-    public function execute(Observer $observer)
+    public function execute(Observer $observer): void
     {
         $this->benchmark->start(__METHOD__);
         if (!$this->helper->isLoginEnable()) {
-            return $observer;
+            return;
         }
 
         $user = null;

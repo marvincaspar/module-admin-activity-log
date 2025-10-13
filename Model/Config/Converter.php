@@ -34,12 +34,12 @@ class Converter implements ConverterInterface
     {
         $result = ['config' => []];
         $xpath = new DOMXPath($source);
-        $result['config']['actions'] = $this->_getActions($xpath);
+        $result['config']['actions'] = $this->getActions($xpath);
 
         $modules = $xpath->query('/config/modules/module');
         foreach ($modules as $module) {
             $moduleId = $module->attributes->getNamedItem('name')->nodeValue;
-            $result['config'][$moduleId] = $this->_processModule($module, $moduleId);
+            $result['config'][$moduleId] = $this->processModule($module, $moduleId);
         }
 
         return $result;
@@ -50,7 +50,7 @@ class Converter implements ConverterInterface
      * @param DOMXPath $xpath
      * @return array
      */
-    public function _getActions($xpath)
+    public function getActions($xpath)
     {
         $result = [];
         $actions = $xpath->query('/config/actions/action');
@@ -74,7 +74,7 @@ class Converter implements ConverterInterface
      * @param $moduleId
      * @return array
      */
-    public function _processModule($module, $moduleId)
+    public function processModule($module, $moduleId)
     {
         $result = [];
         foreach ($module->childNodes as $params) {
@@ -83,13 +83,13 @@ class Converter implements ConverterInterface
                     $result['label'] = $params->nodeValue;
                     break;
                 case 'models':
-                    $result['model'] = $this->_processModels($params);
+                    $result['model'] = $this->processModels($params);
                     break;
                 case 'events':
-                    $result['actions'] = $this->_processEvents($params, $moduleId);
+                    $result['actions'] = $this->processEvents($params, $moduleId);
                     break;
                 case 'config':
-                    $result['config'] = $this->_processConfig($params);
+                    $result['config'] = $this->processConfig($params);
                     break;
             }
         }
@@ -100,7 +100,7 @@ class Converter implements ConverterInterface
      * @param $events
      * @return array
      */
-    public function _processModels($events)
+    public function processModels($events)
     {
         $result = [];
         foreach ($events->childNodes as $event) {
@@ -118,7 +118,7 @@ class Converter implements ConverterInterface
      * @param $moduleId
      * @return array
      */
-    public function _processEvents($events, $moduleId)
+    public function processEvents($events, $moduleId)
     {
         $result = [];
         foreach ($events->childNodes as $event) {
@@ -144,7 +144,7 @@ class Converter implements ConverterInterface
      * @param $configs
      * @return array
      */
-    public function _processConfig($configs)
+    public function processConfig($configs)
     {
         $result = [];
         foreach ($configs->childNodes as $config) {

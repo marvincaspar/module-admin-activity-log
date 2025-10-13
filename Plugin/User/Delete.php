@@ -26,7 +26,7 @@ class Delete
     /**
      * @var Benchmark
      */
-    public $benchmark;
+    private $benchmark;
 
     /**
      * Delete constructor.

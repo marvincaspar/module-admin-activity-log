@@ -28,7 +28,7 @@ class ActionTypeColumn extends Column
     /**
      * @var Helper
      */
-    public $helper;
+    private $helper;
 
     /**
      * ActionTypeColumn constructor.

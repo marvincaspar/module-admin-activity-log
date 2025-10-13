@@ -33,17 +33,17 @@ class Benchmark extends AbstractHelper
     /**
      * @var LoggerInterface
      */
-    public $logger;
+    private $logger;
 
     /**
      * @var String[] Start time of execution
      */
-    public $startTime;
+    private $startTime;
 
     /**
      * @var String[] End time of execution
      */
-    public $endTime;
+    private $endTime;
 
     /**
      * Benchmark constructor.
@@ -63,7 +63,7 @@ class Benchmark extends AbstractHelper
      * @param $method
      * @return void
      */
-    public function start($method)
+    public function start($method): void
     {
         $this->reset($method);
         if (self::BENCHMARK_ENABLE) {
@@ -79,7 +79,7 @@ class Benchmark extends AbstractHelper
      * @param $method
      * @return void
      */
-    public function end($method)
+    public function end($method): void
     {
         if (self::BENCHMARK_ENABLE) {
             $this->endTime[$method] = round(microtime(true) * 1000);
@@ -98,7 +98,7 @@ class Benchmark extends AbstractHelper
      * @param $method
      * @return void
      */
-    public function reset($method)
+    public function reset($method): void
     {
         $this->startTime[$method] = 0;
         $this->endTime[$method] = 0;

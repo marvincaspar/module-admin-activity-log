@@ -43,12 +43,12 @@ class TrackField extends AbstractHelper
     /**
      * @var SystemConfig
      */
-    public $systemConfig;
+    private $systemConfig;
 
     /**
      * @var ThemeConfig
      */
-    public $themeConfig;
+    private $themeConfig;
 
     /**
      * TrackField constructor.

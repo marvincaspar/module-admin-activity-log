@@ -37,22 +37,22 @@ class LoginRepository implements LoginRepositoryInterface
     /**
      * @var LoginFactory
      */
-    public $loginFactory;
+    private $loginFactory;
 
     /**
      * @var Processor
      */
-    public $processor;
+    private $processor;
 
     /**
      * @var object Magento\User\Model\User
      */
-    public $user;
+    private $user;
 
     /**
      * @var ResourceModel\Activity\CollectionFactory
      */
-    public $collectionFactory;
+    private $collectionFactory;
 
     /**
      * LoginRepository constructor.

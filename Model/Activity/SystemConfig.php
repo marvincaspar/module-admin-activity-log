@@ -29,17 +29,17 @@ class SystemConfig implements ModelInterface
     /**
      * @var DataObject
      */
-    public $dataObject;
+    private $dataObject;
 
     /**
      * @var ValueFactory
      */
-    public $valueFactory;
+    private $valueFactory;
 
     /**
      * @var WriterInterface
      */
-    public $configWriter;
+    private $configWriter;
 
     /**
      * SystemConfig constructor.

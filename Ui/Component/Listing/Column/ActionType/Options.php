@@ -26,7 +26,7 @@ class Options implements ArrayInterface
     /**
      * @var Data
      */
-    public $helper;
+    private $helper;
 
     /**
      * Options constructor.
