@@ -48,6 +48,7 @@ $script = <<<JS
                 }
             },
             openDialogWindow: function (data, elementId, revertable) {
+                let self = this;
                 this.activityId = elementId;
                 if (this.modal) {
                     this.modal.html(jQuery(data).html());
@@ -60,18 +61,18 @@ $script = <<<JS
                         buttons: [{
                             text: jQuery.mage.__('Back'),
                             class: 'action- scalable back',
-                            click: () => {
-                                this.closeDialogWindow(this);
+                            click: function() {
+                                self.closeDialogWindow(this);
                             }
                         }, {
                             text: jQuery.mage.__('Revert'),
                             class: 'action- scalable action-primary action-revert-activity',
-                            click: () => {
-                                this.revertDialogWindow(this);
+                            click: function() {
+                                self.revertDialogWindow(this);
                             }
                         }],
-                        close: () => {
-                            this.closeDialogWindow(this);
+                        close: function() {
+                            self.closeDialogWindow(this);
                         }
                     });
                 }

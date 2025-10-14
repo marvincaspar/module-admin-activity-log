@@ -78,4 +78,9 @@ class ActivityLogListing extends Template
         $logData['date'] = $activity->getUpdatedAt();
         return $logData;
     }
+
+    public function getActivityRepository(): ActivityRepositoryInterface
+    {
+        return $this->activityRepository;
+    }
 }
