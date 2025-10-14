@@ -30,7 +30,7 @@ class Converter implements ConverterInterface
      * @param DOMDocument $source
      * @return array
      */
-    public function convert(DOMDocument $source): array
+    public function convert($source)
     {
         $result = ['config' => []];
         $xpath = new DOMXPath($source);
