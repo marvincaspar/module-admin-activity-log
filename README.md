@@ -39,20 +39,10 @@ php bin/magento setup:upgrade
 Navigate to **Stores → Configuration → Advanced → Admin → Admin Activity**
 
 #### General Settings
-- **Enable Module**: Enable/disable the extension
-- **Enable Login Logging**: Track login and logout activities
-- **Enable Page Visit History**: Monitor admin page navigation
-- **Log Retention Period**: Set how many days to keep logs (default: 90 days)
-
-#### Module-Specific Logging
-Configure which modules to monitor:
-- ✅ **Orders**: Track order-related activities
-- ✅ **Products**: Monitor product changes
-- ✅ **Categories**: Log category modifications
-- ✅ **Customers**: Track customer data changes
-- ✅ **System Configuration**: Monitor config changes
-- ✅ **Admin Users**: Log user management activities
-- ✅ **CMS Pages & Blocks**: Track content changes
+- **Enable Admin Audit Logs**: Enable/disable the extension
+- **Record Login Activity**: Track login and logout activities
+- **Record Page Visits**: Monitor admin page navigation
+- **Clear Admin Activity Logs After**: Set how many days to keep logs (default: 90 days)
 
 ## 📖 Usage Guide
 
