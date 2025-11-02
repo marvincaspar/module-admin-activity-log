@@ -97,7 +97,7 @@ class ActivityRepository implements ActivityRepositoryInterface
     public function deleteActivityById($activityId): void
     {
         $model = $this->activityFactory->create();
-        $model->load($activityId);
+        $model->load((int)$activityId);
         $model->delete();
     }
 
@@ -121,7 +121,7 @@ class ActivityRepository implements ActivityRepositoryInterface
     public function getActivityLog($activityId): Collection
     {
         $collection = $this->LogCollectionFactory->create()
-            ->addFieldToFilter('activity_id', ["eq" => $activityId]);
+            ->addFieldToFilter('activity_id', ["eq" => (int)$activityId]);
         return $collection;
     }
 
@@ -155,7 +155,7 @@ class ActivityRepository implements ActivityRepositoryInterface
         $detailModel = $this->getActivityDetail($activity->getId());
 
         if (Data::isWildCardModel($detailModel->getModelClass())) {
-            if ($activity->getModule() == self::THEME_MODULE) {
+            if ($activity->getModule() === self::THEME_MODULE) {
                 return $this->themeConfig->revertData($logData, $activity->getStoreId(), $activity->getScope());
             }
             return $this->systemConfig->revertData($logData, $activity->getStoreId());
@@ -171,7 +171,7 @@ class ActivityRepository implements ActivityRepositoryInterface
                 if ($this->isFieldProtected($log->getFieldName())) {
                     continue;
                 }
-                if ($log->getFieldName() == self::QTY_FIELD) {
+                if ($log->getFieldName() === self::QTY_FIELD) {
                     $model->setStockData(['qty' => $log->getOldValue()]);
                 }
                 $method = 'set' . $this->getMethodName($log->getFieldName());
@@ -220,9 +220,6 @@ class ActivityRepository implements ActivityRepositoryInterface
     public function isFieldProtected(string $fieldName): bool
     {
         $fieldArray = $this->protectedFields();
-        if (in_array($fieldName, $fieldArray)) {
-            return true;
-        }
-        return false;
+        return in_array($fieldName, $fieldArray, true);
     }
 }

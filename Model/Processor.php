@@ -186,7 +186,7 @@ class Processor
     public function getEditUrl($model)
     {
         $id = $model->getId();
-        if ($this->eventConfig['module'] == self::SALES_ORDER && (!empty($model->getOrderId())
+        if ($this->eventConfig['module'] === self::SALES_ORDER && (!empty($model->getOrderId())
                 || !empty($model->getParentId()))) {
             $id = ($model->getOrderId()) ? $model->getOrderId() : $model->getParentId();
         }
@@ -214,7 +214,7 @@ class Processor
             $logData = $this->handler->modelAdd($model, $this->getMethod());
             if (!empty($logData)) {
                 $activity = $this->initActivity($model);
-                $activity->setIsRevertable(0);
+                $activity->setIsRevertable(false);
 
                 $this->addLog($activity, $logData, $model);
             }
@@ -229,13 +229,13 @@ class Processor
      */
     public function modelEditAfter($model)
     {
-        $label = ($this->eventConfig['action'] == self::SAVE_ACTION) ? self::EDIT_ACTION : $this->eventConfig['action'];
+        $label = ($this->eventConfig['action'] === self::SAVE_ACTION) ? self::EDIT_ACTION : $this->eventConfig['action'];
         if ($this->validate($model)) {
             $logData = $this->handler->modelEdit($model, $this->getMethod());
             if (!empty($logData)) {
                 $activity = $this->initActivity($model);
                 $activity->setActionType($label);
-                $activity->setIsRevertable(1);
+                $activity->setIsRevertable(true);
 
                 $this->addLog($activity, $logData, $model);
             }
@@ -256,7 +256,7 @@ class Processor
             if (!empty($logData)) {
                 $activity = $this->initActivity($model);
 
-                $activity->setIsRevertable(0);
+                $activity->setIsRevertable(false);
                 $activity->setItemUrl('');
 
                 $this->addLog($activity, $logData, $model);
@@ -299,7 +299,7 @@ class Processor
                         $logData = $model[ActivityLog::class];
                         if ($logData) {
                             foreach ($logData as $log) {
-                                $log->setActivityId($activityId);
+                                $log->setActivityId((int)$activityId);
                                 $log->save();
                             }
                         }
@@ -361,8 +361,7 @@ class Processor
         $activity->setStoreId($this->getStoreId($model));
         $activity->setItemName(
             $model->getData(
-                $this->config
-                    ->getActivityModuleItemField($this->eventConfig['module'])
+                $this->config->getActivityModuleItemField($this->eventConfig['module'])
             )
         );
         $activity->setItemUrl($this->getEditUrl($model));
@@ -377,12 +376,11 @@ class Processor
      */
     public function initActivityDetail($model)
     {
-        $activity = $this->activityDetailFactory->create()->setData([
-            'model_class' => get_class($model),
-            'item_id' => $model->getId(),
-            'status' => 'success',
-            'response' => ''
-        ]);
+        $activity = $this->activityDetailFactory->create()
+            ->setModelClass((string)get_class($model))
+            ->setItemId((int)$model->getId())
+            ->setStatus('success')
+            ->setResponse('');
         return $activity;
     }
 
@@ -427,9 +425,9 @@ class Processor
      */
     public function getScope()
     {
-        if ($this->request->getParam('store') == 1 || $this->request->getParam('scope') == 'stores') {
+        if ((int)$this->request->getParam('store') === 1 || $this->request->getParam('scope') === 'stores') {
             $scope = 'stores';
-        } elseif ($this->request->getParam('website') == 1) {
+        } elseif ((int)$this->request->getParam('website') === 1) {
             $scope = 'website';
         } else {
             $scope = 'default';
@@ -451,16 +449,16 @@ class Processor
 
         try {
             $activityModel = $this->activityFactory->create()->load($activityId);
-            if ($activityModel->getIsRevertable() === '0') {
+            if ($activityModel->isRevertable() === false && !empty($activityModel->getRevertBy())) {
                 $result['message'] = __('Activity data has already been reverted');
             } else {
-                if ($activityModel->getId() && $this->activityRepository->revertActivity($activityModel)) {
+                if ((int)$activityModel->getId() !== 0 && $this->activityRepository->revertActivity($activityModel)) {
                     $activityModel->setRevertBy($this->authSession->getUser()->getUsername());
                     $activityModel->setUpdatedAt($this->dateTime->gmtDate());
                     $activityModel->save();
 
                     $result['error'] = false;
-                    $this->status->markSuccess($activityId);
+                    $this->status->markSuccess((int)$activityId);
                     $this->messageManager->addSuccessMessage(__('Activity data has been reverted successfully'));
                 }
             }
@@ -525,7 +523,7 @@ class Processor
             $activity = $this->initLog();
 
             $activity->setActionType('view');
-            $activity->setIsRevertable(0);
+            $activity->setIsRevertable(false);
 
             if (!$activity->getModule()) {
                 $activity->setModule($this->escapeString($module));

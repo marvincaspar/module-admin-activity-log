@@ -56,7 +56,7 @@ class SaveBefore implements ObserverInterface
         }
 
         $object = $observer->getEvent()->getObject();
-        if ($object->getId() == 0) {
+        if ((int)$object->getId() === 0) {
             $object->setCheckIfIsNew(true);
         } else {
             $object->setCheckIfIsNew(false);

@@ -43,8 +43,9 @@ class Status
      */
     public function markSuccess($activityId): void
     {
-        $activityModel = $this->activityFactory->create()->load($activityId);
-        $activityModel->setIsRevertable(self::ACTIVITY_REVERT_SUCCESS);
+        $activityModel = $this->activityFactory->create()->load((int)$activityId);
+        // After successful revert, activity is no longer revertable
+        $activityModel->setIsRevertable(false);
         $activityModel->save();
     }
 
@@ -55,8 +56,9 @@ class Status
      */
     public function markFail($activityId): void
     {
-        $activityModel = $this->activityFactory->create()->load($activityId);
-        $activityModel->setIsRevertable(self::ACTIVITY_FAIL);
+        $activityModel = $this->activityFactory->create()->load((int)$activityId);
+        // Revert attempt failed; keep activity revertable
+        $activityModel->setIsRevertable(true);
         $activityModel->save();
     }
 }

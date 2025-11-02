@@ -108,7 +108,7 @@ class PostDispatch
     public function productUpdate(array $config, Processor $processor): void
     {
         $activity = $processor->initLog();
-        $activity->setIsRevertable(1);
+        $activity->setIsRevertable(true);
 
         $selected = $this->request->getParam('selected');
         if (empty($selected)) {

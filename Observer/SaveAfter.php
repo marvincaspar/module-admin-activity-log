@@ -56,7 +56,7 @@ class SaveAfter implements ObserverInterface
         }
         $object = $observer->getEvent()->getObject();
         if ($object->getCheckIfIsNew()) {
-            if ($this->processor->getInitAction() == self::SYSTEM_CONFIG) {
+            if ($this->processor->getInitAction() === self::SYSTEM_CONFIG) {
                 $this->processor->modelEditAfter($object);
             }
             $this->processor->modelAddAfter($object);

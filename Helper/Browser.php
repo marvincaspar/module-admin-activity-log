@@ -207,7 +207,7 @@ class Browser extends AbstractHelper
      */
     public function isBrowser($browserName)
     {
-        return (0 == strcasecmp($this->browser_name, trim($browserName)));
+        return strcasecmp($this->browser_name, trim((string)$browserName)) === 0;
     }
 
     /**

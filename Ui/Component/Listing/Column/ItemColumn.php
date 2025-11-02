@@ -137,22 +137,20 @@ class ItemColumn extends Column
      */
     public function prepareUrl(string $url): string
     {
-        if (current(explode('/', $url)) == 'theme' && count(explode('/', $url)) == self::URL_COUNT) {
-            list($module, $controller, $action, $scope, $store, $field, $id) = explode('/', $url);
-            $editUrl = $this->backendUrl->getUrl(
+        $parts = explode('/', $url);
+        if ((isset($parts[0]) && $parts[0] === 'theme') && count($parts) === self::URL_COUNT) {
+            [$module, $controller, $action, $scope, $store, $field, $id] = $parts;
+            return $this->backendUrl->getUrl(
                 implode('/', [$module, $controller, $action, $scope, $store]),
                 [$field => $id]
             );
-            return $editUrl;
         }
-        list($module, $controller, $action, $field, $id) = explode('/', $url);
+        [$module, $controller, $action, $field, $id] = $parts;
 
-        $editUrl = $this->backendUrl->getUrl(
+        return $this->backendUrl->getUrl(
             implode('/', [$module, $controller, $action]),
             [$field => $id]
         );
-
-        return $editUrl;
     }
 
     /**

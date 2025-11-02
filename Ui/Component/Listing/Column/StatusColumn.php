@@ -14,6 +14,9 @@
 
 namespace MageOS\AdminActivityLog\Ui\Component\Listing\Column;
 
+use Magento\Framework\Escaper;
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
 
 /**
@@ -22,6 +25,16 @@ use Magento\Ui\Component\Listing\Columns\Column;
  */
 class StatusColumn extends Column
 {
+    public function __construct(
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        private Escaper $escaper,
+        array $components = [],
+        array $data = []
+    ) {
+        parent::__construct($context, $uiComponentFactory, $components, $data);
+    }
+
     /**
      * Prepare Data Source
      * @param array $dataSource
@@ -30,14 +43,14 @@ class StatusColumn extends Column
     public function prepareDataSource(array $dataSource): array
     {
         if (isset($dataSource['data']['items'])) {
+            $name = (string)$this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
-                if ($item[$this->getData('name')]) {
-                    $item[$this->getData('name')] =
-                        '<span class="grid-severity-notice"><span>Success</span></span>';
+                if ($item[$name]) {
+                    $item[$name] = '<span class="grid-severity-notice"><span>Success</span></span>';
                 } else {
-                    $remark = $item['remarks'];
-                    $item[$this->getData('name')] =
-                        '<span class="grid-severity-critical" title="' . $remark . '"><span>Faild</span></span>';
+                    $remark = $this->escaper->escapeHtmlAttr((string)$item['remarks']);
+                    $item[$name] = '<span class="grid-severity-critical" title="' . $remark . '">';
+                    $item[$name] .= '<span>Failed</span></span>';
                 }
             }
         }

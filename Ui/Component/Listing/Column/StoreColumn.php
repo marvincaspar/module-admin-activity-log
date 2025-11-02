@@ -32,7 +32,7 @@ class StoreColumn extends Store
     public function prepareItem(array $item): string
     {
         $this->storeKey = !empty($this->storeKey) ? $this->storeKey : self::KEY_FIELD;
-        if ($item[$this->storeKey] == 0) {
+        if (isset($item[$this->storeKey]) && (int)$item[$this->storeKey] === 0) {
             $origStores['0'] = 0;
         }
 
@@ -46,7 +46,7 @@ class StoreColumn extends Store
         if (!is_array($origStores)) {
             $origStores = [$origStores];
         }
-        if (in_array(0, $origStores) && count($origStores) == 1) {
+        if (in_array(0, $origStores, true) && count($origStores) === 1) {
             return __('All Store Views');
         }
 

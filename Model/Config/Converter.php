@@ -59,7 +59,7 @@ class Converter implements ConverterInterface
         foreach ($actions as $action) {
             $actionId = $action->attributes->getNamedItem('id')->nodeValue;
             foreach ($action->childNodes as $label) {
-                if ($label->nodeName == 'label') {
+                if ($label->nodeName === 'label') {
                     $result[$actionId] = $label->nodeValue;
                 }
             }
@@ -104,7 +104,7 @@ class Converter implements ConverterInterface
     {
         $result = [];
         foreach ($events->childNodes as $event) {
-            if ($event->nodeName == 'class') {
+            if ($event->nodeName === 'class') {
                 $result[] = $event->attributes->getNamedItem('name')->nodeValue;
             }
         }
@@ -122,7 +122,7 @@ class Converter implements ConverterInterface
     {
         $result = [];
         foreach ($events->childNodes as $event) {
-            if ($event->nodeName == 'event') {
+            if ($event->nodeName === 'event') {
                 $result[$event->attributes->getNamedItem('controller_action')->nodeValue] = [
                     'action' => $event->attributes->getNamedItem('action_alias')->nodeValue,
                     'module' => $moduleId
